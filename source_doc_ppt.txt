@@ -1,0 +1,93 @@
+Create a PowerPoint presentation (.pptx) for my final-year B.Tech project review/synopsis presentation. 
+Use the pptx skill for proper formatting. Make it clean, professional, and suited for an academic 
+panel presentation — not overly colorful, no stock clipart, use a consistent dark-blue/navy or slate 
+academic theme with clear headings.
+
+PROJECT DETAILS:
+- Title: AI-Driven Log Anomaly Detection System with Real-Time Root-Cause Analysis and 
+  Recommendation Engine (Working name: LogSentry)
+- College: RCOEM, Nagpur | Department of Computer Science and Engineering | Semester VII
+- Guide: Prof. Deveshree Naidu
+- Team: Piyush Thakur, Sajal Chouhan, Sajal Kamble, Piyush Bhoyar
+
+PROBLEM STATEMENT:
+Large software systems generate log data far beyond manual review capacity. The earliest signs 
+of failure are usually buried in these logs as subtle deviations, not explicit errors. Existing 
+monitoring is reactive (alerts only after users are affected), and even where anomaly-detection 
+research exists, it evaluates offline on static datasets and outputs only a raw anomaly score — 
+with no root-cause pinpointing, no severity ranking, and no actionable guidance for engineers.
+
+OBJECTIVES (3):
+1. Reduce detection delay — catch early warning signs in logs before users notice anything is wrong.
+2. Solve the "black box" problem — pinpoint the exact event where behaviour breaks from the norm, 
+   not just flag "something's off."
+3. Close the gap between detection and action — turn a raw anomaly score into a severity level 
+   and a plain-language explanation engineers can act on.
+
+RELATED WORK / LITERATURE (brief mentions):
+- Xu et al., 2009 — PCA-based console log mining, introduced the HDFS benchmark dataset
+- Du et al., 2017 — DeepLog: LSTM-based next-event prediction for log anomaly detection
+- Meng et al., 2019 — LogAnomaly: semantic embeddings for sequential + quantitative anomalies
+- Zhang et al., 2019 — LogRobust: attention-based Bi-LSTM robust to unstable log formats
+- Le & Zhang, 2022 — empirical survey showing most systems lack real-time, explainable output
+Research Gap: no existing system combines real-time detection + root-cause localization + 
+plain-language recommendations in one deployable web application.
+
+PROPOSED METHODOLOGY (5 stages — use this as the architecture/workflow slide):
+1. Ingestion: Logging middleware (Winston) → Node/Express ingestion API → Redis queue (Bull) → 
+   per-session windowing (grouped by Block ID)
+2. Model Training & Inference: LSTM trained in Python/PyTorch on the Loghub HDFS dataset 
+   (primary benchmark; BGL dataset as optional stretch extension), served via a FastAPI 
+   microservice, predicting the next expected log event
+3. Detection: Compare predicted vs. actual event → flag deviation → localize the exact 
+   root-cause event → assign severity (Low / Medium / High)
+4. Recommendation: Structured anomaly context sent to Gemini API → plain-language explanation 
+   + suggested next steps (LLM explains only, never detects)
+5. Visualization: Incidents stored in MongoDB → pushed via Socket.io → live React dashboard
+
+TECH STACK (include as a dedicated slide with categorized layout):
+- Frontend: React.js, Socket.io-client
+- Backend: Node.js, Express.js, MongoDB (NoSQL), Redis + Bull (queueing)
+- Machine Learning: Python, PyTorch (LSTM model), FastAPI (inference microservice)
+- External API: Google Gemini API (explanation/recommendation layer)
+- Dataset: Loghub HDFS (primary), BGL (optional extension)
+- Deployment: Docker, hosted on Render/Railway/AWS
+
+EXPECTED OUTCOMES / DELIVERABLES (4 points):
+1. A reproducible HDFS preprocessing pipeline, a transition-based baseline, and an LSTM detector 
+   evaluated with precision, recall, F1-score, false-positive rate, and latency
+2. An application that identifies the exact event where a sequence becomes unlikely, calculates 
+   an anomaly score, assigns severity, and groups related detections into incidents
+3. A containerized Node/FastAPI/MongoDB/Redis backend streaming incidents to a React dashboard 
+   showing timelines, scores, affected components, surrounding events, and expected-vs-observed behaviour
+4. A constrained Gemini layer translating evidence into plain-language explanations and suggested 
+   checks, demonstrated end-to-end with a live log replay and a deliberately triggered failure
+
+SCOPE:
+In scope: HDFS-based detection pipeline, root-cause localization, LLM recommendation layer, 
+live MERN dashboard, self-generated demo log stream.
+Out of scope: third-party production integration, automated incident remediation, multi-tenant 
+deployment, mobile app.
+
+TIMELINE (4 phases, ~14 weeks):
+Week 1-2: Literature review & requirement analysis
+Week 3-4: Design & methodology finalisation
+Week 5-11: Implementation/development
+Week 12-14: Testing & evaluation
+
+SLIDE STRUCTURE (please follow this order):
+1. Title slide (project title, team names, guide name, college, department)
+2. Problem Statement
+3. Objectives (3 points)
+4. Literature Review / Related Work (brief table or bullets)
+5. Research Gap
+6. Proposed System Architecture (5-stage workflow — use a diagram/flow layout, not just bullets)
+7. Technology Stack (categorized: Frontend / Backend / ML / API / Dataset / Deployment)
+8. Dataset Details (Loghub HDFS, mention BGL as extension)
+9. Expected Outcomes & Deliverables
+10. Project Scope (in-scope vs out-of-scope)
+11. Timeline (Gantt-style or phase table)
+12. Thank You / Questions slide
+
+Keep text per slide minimal (bullet points, not paragraphs) — this is for a live verbal 
+presentation, not a document. Use the architecture slide as the visual centerpiece.
