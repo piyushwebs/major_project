@@ -1,6 +1,38 @@
+
+# Python virtual environments
 .venv/
+venv/
 __pycache__/
 *.py[cod]
+.pytest_cache/
+
+# Node.js dependencies and build output
+node_modules/
+**/node_modules/
+frontend/dist/
+backend/dist/
+
+# Secrets and environment files
 .env
+.env.*
+!.env.example
+
+# Large HDFS dataset files
 HDFS_v1/HDFS.log
-HDFS_v1/preprocessed/
+HDFS_v1/preprocessed/Event_traces.csv
+
+# Local test logs
+parser_smoke_test.log
+
+# Python and application logs
+*.log
+
+# Large datasets and generated preprocessing files
+HDFS_v1.zip
+HDFS_v1/HDFS.log
+HDFS_v1/preprocessed/Event_traces.csv
+HDFS_v1/preprocessed/Event_occurrence_matrix.csv
+HDFS_v1/preprocessed/HDFS.npz
+
+# Local parser test file
+parser_smoke_test.log
